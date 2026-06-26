@@ -9,8 +9,20 @@ yargs.version = version
 yargs.command({
     command: "add",
     describe: "adds a note",
-    handler: function () {
-        console.log("Adding a note!")
+    builder: {
+        title: {
+            describe: "title of the note",
+            type: "string",
+            demandOption: true
+        },
+        body: {
+            describe: "body of the note",
+            type: "string",
+            demandOption: true
+        },
+    },
+    handler: function (argv) {
+        console.log("Adding a note:\n\tTitle: " + argv.title + "\n\tBody: " + argv.body)
     }
 })
 

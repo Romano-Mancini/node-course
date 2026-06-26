@@ -12,3 +12,12 @@ const returnedJSON = fs.readFileSync("person.json").toString()
 const newPersonObject = JSON.parse(returnedJSON)
 
 console.log(newPersonObject.name)
+
+
+const planetJSON = fs.readFileSync("planet.json").toString()
+const planetObject = JSON.parse(planetJSON)
+planetObject.name = "Romano"
+planetObject.age = 22
+
+const planetJSON2 = JSON.stringify(planetObject)
+fs.writeFileSync("planet.json", planetJSON2)

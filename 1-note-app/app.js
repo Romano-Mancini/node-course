@@ -1,53 +1,52 @@
-const { version } = require('./package.json')
+const { version } = require("./package.json");
 
-const chalk = require('chalk')
-const getNotes = require('./notes.js')
-const yargs = require('yargs')
+const noteUtils = require("./notes.js");
+const yargs = require("yargs");
 
-yargs.version = version
+yargs.version = version;
 
 yargs.command({
-    command: "add",
-    describe: "adds a note",
-    builder: {
-        title: {
-            describe: "title of the note",
-            type: "string",
-            demandOption: true
-        },
-        body: {
-            describe: "body of the note",
-            type: "string",
-            demandOption: true
-        },
+  command: "add",
+  describe: "adds a note",
+  builder: {
+    title: {
+      describe: "title of the note",
+      type: "string",
+      demandOption: true,
     },
-    handler: function (argv) {
-        console.log("Adding a note:\n\tTitle: " + argv.title + "\n\tBody: " + argv.body)
-    }
-})
+    body: {
+      describe: "body of the note",
+      type: "string",
+      demandOption: true,
+    },
+  },
+  handler: function (argv) {
+    noteUtils.addNotes(argv.title, argv.body);
+  },
+});
 
 yargs.command({
-    command: "remove",
-    describe: "removes a note",
-    handler: function () {
-        console.log("Removing a note!")
-    }
-})
+  command: "remove",
+  describe: "removes a note",
+  handler: function () {
+    console.log("Removing a note!");
+  },
+});
 
 yargs.command({
-    command: "list",
-    describe: "lists all notes",
-    handler: function () {
-        console.log("Listing notes!")
-    }
-})
+  command: "list",
+  describe: "lists all notes",
+  handler: function () {
+    console.log("Listing notes!");
+  },
+});
 
 yargs.command({
-    command: "read",
-    describe: "reads a note",
-    handler: function () {
-        console.log("Reading a note!")
-    }
-})
+  command: "read",
+  describe: "reads a note",
+  handler: function () {
+    console.log("Reading a note!");
+  },
+});
 
-yargs.parse()
+yargs.parse();

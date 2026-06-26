@@ -1,4 +1,5 @@
 const fs = require("fs");
+const chalk = require("chalk");
 const filename = "notes.json";
 
 const addNotes = function (title, body) {
@@ -35,8 +36,14 @@ const removeNotes = function (title) {
     return !(note.title === title);
   });
 
+  const amountRemoved = allNotes.length - toStore.length;
   console.log("Title: " + title);
-  console.log("Removed " + (allNotes.length - toStore.length) + " note(s).");
+
+  if (amountRemoved > 0) {
+    console.log(chalk.green.inverse("Note removed!"));
+  } else {
+    console.log(chalk.red.inverse("No note found!"));
+  }
 
   saveNotes(toStore);
 };

@@ -29,7 +29,20 @@ const loadNotes = function () {
   }
 };
 
+const removeNotes = function (title) {
+  const allNotes = loadNotes(filename);
+  const toStore = allNotes.filter(function (note) {
+    return !(note.title === title);
+  });
+
+  console.log("Title: " + title);
+  console.log("Removed " + (allNotes.length - toStore.length) + " note(s).");
+
+  saveNotes(toStore);
+};
+
 module.exports = {
   addNotes: addNotes,
   loadNotes: loadNotes,
+  removeNotes: removeNotes,
 };

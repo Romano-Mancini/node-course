@@ -1,5 +1,7 @@
 const square = (x) => x * x;
 
+const greeter = () => console.log("Hello world");
+
 const event = {
   name: "Birthday Party",
   guestList: ["Andrew", "Jen", "Mike"],
@@ -15,6 +17,7 @@ const event = {
 
 event.printGuestList();
 
+greeter();
 /*
     Arrow functions don't have their own "this": they inherit it from
     the enclosing scope.

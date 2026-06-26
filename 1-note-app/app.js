@@ -3,7 +3,7 @@ const { version } = require("./package.json");
 const noteUtils = require("./notes.js");
 const yargs = require("yargs");
 
-yargs.version = version;
+yargs.version(version);
 
 yargs.command({
   command: "add",
@@ -20,7 +20,7 @@ yargs.command({
       demandOption: true,
     },
   },
-  handler: function (argv) {
+  handler(argv) {
     noteUtils.addNotes(argv.title, argv.body);
   },
 });
@@ -35,7 +35,7 @@ yargs.command({
       demandOption: true,
     },
   },
-  handler: function (argv) {
+  handler(argv) {
     noteUtils.removeNotes(argv.title);
   },
 });
@@ -43,7 +43,7 @@ yargs.command({
 yargs.command({
   command: "list",
   describe: "lists all notes",
-  handler: function () {
+  handler(argv) {
     console.log("Listing notes!");
   },
 });
@@ -51,7 +51,7 @@ yargs.command({
 yargs.command({
   command: "read",
   describe: "reads a note",
-  handler: function () {
+  handler() {
     console.log("Reading a note!");
   },
 });

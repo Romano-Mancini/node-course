@@ -1,3 +1,2 @@
-console.log("Starting...");
-setTimeout(() => console.log("Two seconds passed."));
-console.log("Stopping...");
+require("dotenv").config();
+const apiKey = process.env.API_KEY;

@@ -5,9 +5,10 @@ const filename = "notes.json";
 const addNotes = (title, body) => {
   const currentNotes = loadNotes();
 
-  const duplicateNotes = currentNotes.filter((note) => note.title === title);
+  // const duplicateNotes = currentNotes.filter((note) => note.title === title);
+  const duplicateNote = currentNotes.find((note) => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     currentNotes.push({ title: title, body: body });
     saveNotes(currentNotes);
     console.log(chalk.green.inverse("Note saved!"));
@@ -49,9 +50,24 @@ const listNotes = () => {
   allNotes.forEach((note) => console.log("- " + note.title));
 };
 
+const readNote = (title) => {
+  const currentNotes = loadNotes();
+  const note = currentNotes.find((note) => note.title === title);
+
+  if (note) {
+    console.log(chalk.bold(note.title));
+    console.log(note.body);
+  } else {
+    console.log(
+      chalk.red.inverse("ERROR: no note found with specified title."),
+    );
+  }
+};
+
 module.exports = {
   addNotes: addNotes,
   loadNotes: loadNotes,
   removeNotes: removeNotes,
   listNotes: listNotes,
+  readNote: readNote,
 };

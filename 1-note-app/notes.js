@@ -27,7 +27,7 @@ const loadNotes = () => {
 };
 
 const removeNotes = (title) => {
-  const allNotes = loadNotes(filename);
+  const allNotes = loadNotes();
   const toStore = allNotes.filter((note) => !(note.title === title));
 
   const amountRemoved = allNotes.length - toStore.length;
@@ -42,8 +42,16 @@ const removeNotes = (title) => {
   saveNotes(toStore);
 };
 
+const listNotes = () => {
+  console.log(chalk.blue.inverse("Your notes"));
+  const allNotes = loadNotes();
+
+  allNotes.forEach((note) => console.log("- " + note.title));
+};
+
 module.exports = {
   addNotes: addNotes,
   loadNotes: loadNotes,
   removeNotes: removeNotes,
+  listNotes: listNotes,
 };

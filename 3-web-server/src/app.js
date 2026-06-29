@@ -10,6 +10,12 @@ app.set("views", path.join(__dirname, "../templates/views"));
 hbs.registerPartials(path.join(__dirname, "../templates/partials"));
 
 // Setup static directory to serve
+
+/*
+  The requests are handled in order: looks at the static directory, then at all the
+  other "app.get". Then, at the end, it goes to the 404 handler which basically
+  matches with every possible request.
+*/
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("", (req, res) => {
@@ -34,12 +40,24 @@ app.get("/help", (req, res) => {
   });
 });
 
-app.get("/about", (req, res) => {
-  res.send("<h1>About page</h1>");
-});
-
 app.get("/weather", (req, res) => {
   res.send({ forecast: "It's 30 degrees.", location: "Philadelphia." });
+});
+
+app.get("/help/*section", (req, res) => {
+  res.render("errorHelp", {
+    title: "Help page",
+    name: "Romano Mancini",
+    errorHelpMessage: "Help article not found.",
+  });
+});
+
+app.get("*path", (req, res) => {
+  res.render("error", {
+    title: "Help page",
+    name: "Romano Mancini",
+    genericErrorMessage: "Page not found.",
+  });
 });
 
 // just displaying when the application is first run,

@@ -6,24 +6,24 @@ if (!location) {
   return;
 }
 
-utils.geocode(location, (error, response) => {
+utils.geocode(location, (error, { latitude, longitude, display_name } = {}) => {
   if (error) {
     console.log(error);
   } else {
-    console.log("Retrieved data for " + response.display_name + ".");
+    console.log("Retrieved data for " + display_name + ".");
     utils.forecast(
-      response.latitude,
-      response.longitude,
-      (forecastError, forecastData) => {
+      latitude,
+      longitude,
+      (forecastError, { weather_description, temperature, feelsLike }) => {
         if (forecastError) {
           console.log(forecastError);
         } else {
           console.log(
-            forecastData.weather_description +
+            weather_description +
               ". There are " +
-              forecastData.temperature +
+              temperature +
               " degrees, which feels like " +
-              forecastData.feelsLike +
+              feelsLike +
               " degrees.",
           );
         }

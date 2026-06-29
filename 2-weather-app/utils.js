@@ -12,16 +12,16 @@ const geocode = (address, callback) => {
       json: true,
       headers: { "User-Agent": "my-weather-app" },
     },
-    (error, response) => {
+    (error, { body } = {}) => {
       if (error) {
         callback("Couldn't reach Nominatim API.", undefined);
-      } else if (!response.body) {
+      } else if (!body || body.length === 0) {
         callback("Unable to find location.", undefined);
       } else {
         callback(undefined, {
-          latitude: response.body[0].lat,
-          longitude: response.body[0].lon,
-          display_name: response.body[0].display_name,
+          latitude: body[0].lat,
+          longitude: body[0].lon,
+          display_name: body[0].display_name,
         });
       }
     },
@@ -37,16 +37,16 @@ const forecast = (latitude, longitude, callback) => {
     "," +
     longitude;
 
-  request({ url: weatherURL, json: true }, (error, response) => {
+  request({ url: weatherURL, json: true }, (error, { body }) => {
     if (error) {
       callback("Couldn't reach WeatherStack API.", undefined);
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback("Unable to find location.", undefined);
     } else {
       callback(undefined, {
-        weather_description: response.body.current.weather_descriptions[0],
-        temperature: response.body.current.temperature,
-        feelsLike: response.body.current.feelslike,
+        weather_description: body.current.weather_descriptions[0],
+        temperature: body.current.temperature,
+        feelsLike: body.current.feelslike,
       });
     }
   });

@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
-
+const utils = require("./utils.js");
 const app = express();
 
 // Setup handlebars engine and views locations
@@ -41,7 +41,31 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  res.send({ forecast: "It's 30 degrees.", location: "Philadelphia." });
+  if (!req.query.address) {
+    res.send({ error: "You must provide an address!" });
+  } else {
+    utils.geocode(req.query.address, (error, response) => {
+      if (error) {
+        res.send({ error: error });
+      } else {
+        utils.forecast(
+          response.latitude,
+          response.longitude,
+          (secondError, secondResponse) => {
+            if (secondError) {
+              res.send({ error: secondError });
+            } else {
+              res.send({
+                forecast: secondResponse.weather_description,
+                location: response.display_name,
+                address: req.query.address,
+              });
+            }
+          },
+        );
+      }
+    });
+  }
 });
 
 app.get("/help/*section", (req, res) => {

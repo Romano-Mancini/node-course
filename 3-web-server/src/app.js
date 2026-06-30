@@ -44,34 +44,40 @@ app.get("/weather", (req, res) => {
   if (!req.query.address) {
     res.send({ error: "You must provide an address!" });
   } else {
-    utils.geocode(req.query.address, (error, response) => {
-      if (error) {
-        res.send({ error: error });
-      } else {
-        utils.forecast(
-          response.latitude,
-          response.longitude,
-          (secondError, secondResponse) => {
-            if (secondError) {
-              res.send({ error: secondError });
-            } else {
-              res.send({
-                forecast:
-                  "It's currently " +
-                  secondResponse.weather_description +
-                  ". The temperature is " +
-                  secondResponse.temperature +
-                  " degrees out, and it feels like " +
-                  secondResponse.feelsLike +
-                  " degrees.",
-                location: response.display_name,
-                address: req.query.address,
-              });
-            }
-          },
-        );
-      }
-    });
+    utils.geocode(
+      req.query.address,
+      (error, { latitude, longitude, display_name } = {}) => {
+        if (error) {
+          res.send({ error: error });
+        } else {
+          utils.forecast(
+            latitude,
+            longitude,
+            (
+              secondError,
+              { weather_description, temperature, feelsLike } = {},
+            ) => {
+              if (secondError) {
+                res.send({ error: secondError });
+              } else {
+                res.send({
+                  forecast:
+                    "It's currently " +
+                    weather_description +
+                    ". The temperature is " +
+                    temperature +
+                    " degrees out, and it feels like " +
+                    feelsLike +
+                    " degrees.",
+                  location: display_name,
+                  address: req.query.address,
+                });
+              }
+            },
+          );
+        }
+      },
+    );
   }
 });
 

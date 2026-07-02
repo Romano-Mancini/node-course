@@ -70,6 +70,10 @@ async function main() {
 
     const deletedDocuments = await collection.deleteMany({ completed: false });
     console.log(deletedDocuments);
+
+    const deletedDocument = await collection.deleteOne({
+      description: "Do laundry",
+    });
   } catch (error) {
     console.error(error);
   } finally {
